@@ -26,9 +26,10 @@ class BookSearch extends Component {
         }
     })
 
+    console.log(searchResults)
     console.log(this.state.books) //Gives an empty array
     this.state.books.map((book) => {
-      const parent = parent_books.find(parent => parent === book );
+      const parent = parent_books.find(parent => parent.title === book.title );
       if(parent) {
         console.log(parent.title);
         book.shelf = parent.shelf;
