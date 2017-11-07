@@ -32,14 +32,18 @@ class BookSearch extends Component {
     console.log(this.state.books)
     const book_result = this.state.books.map((book) => {
       const parent = parent_books.find(parent => parent.title === book.title );
-      if(parent) {
+       if(parent) {
         console.log(parent);
         book.shelf = parent.shelf;
+        let selfChange = this.props.handleShelfChange(book,book.shelf)
+        //return selfChange
         }
         return book;
     })
     this.setState({books: book_result})
     console.log(this.state.books)
+
+
   }
 
   render() {
