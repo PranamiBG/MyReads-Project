@@ -15,19 +15,21 @@ class BookSearch extends Component {
   }
 
   updateSearch = (searchString) => {
-    let parent_books = this.props.books;
     this.setState({search: searchString.trim()})
     let searchResults = BooksAPI.search(this.state.search,1).then((book_search) => {
       if (book_search != undefined) {
         console.log(book_search);
           book_search.map((book) => book.shelf = 'none');
-          this.setState({ books : book_search });
-          console.log(this.state.books) //Gives the array of state
+          this.setState({ books : book_search }, this.check()); // callback function to this.setState
+          console.log(this.state.books)
         }
     })
+    }
 
-    console.log(searchResults)
-    console.log(this.state.books) //Gives an empty array
+
+  check() {
+    let parent_books = this.props.books;
+    console.log(this.state.books)
     this.state.books.map((book) => {
       const parent = parent_books.find(parent => parent.title === book.title );
       if(parent) {
@@ -36,8 +38,6 @@ class BookSearch extends Component {
       }
     })
   }
-
-
 
   render() {
     return(
