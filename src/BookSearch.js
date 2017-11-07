@@ -30,13 +30,16 @@ class BookSearch extends Component {
   check() {
     let parent_books = this.props.books;
     console.log(this.state.books)
-    this.state.books.map((book) => {
+    const book_result = this.state.books.map((book) => {
       const parent = parent_books.find(parent => parent.title === book.title );
       if(parent) {
-        console.log(parent.title);
+        console.log(parent);
         book.shelf = parent.shelf;
-      }
+        }
+        return book;
     })
+    this.setState({books: book_result})
+    console.log(this.state.books)
   }
 
   render() {
