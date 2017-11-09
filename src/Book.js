@@ -6,7 +6,7 @@ class Book extends Component {
   }
 
   render() {
-    return(
+        return(
       <div className="book">
         <div key={this.props.book.title}>
           <div className="book-top">

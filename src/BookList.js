@@ -26,7 +26,7 @@ constructor(props) {
                         <li key={book.title}>
                           <Book
                           book={book}
-                          handleShelfChange={this.props.handleShelfChange} />
+                          handleShelfChange={this.props.handleShelfChange}/>
                         </li>)
                       }
                     </ol>

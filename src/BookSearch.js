@@ -10,47 +10,61 @@ class BookSearch extends Component {
     super(props);
     this.state = {
       search:'',
-      books:[]
+      books:[],
+      oldBooks :[]
     }
   }
 
   updateSearch = (searchString) => {
+    let parent = this.props.books;
+    let arrayOfBooks;
+    console.log(parent)
     this.setState({search: searchString.trim()})
     let searchResults = BooksAPI.search(this.state.search,1).then((book_search) => {
       if (book_search != undefined) {
         console.log(book_search);
-          book_search.map((book) => book.shelf = 'none');
-          this.setState({ books : book_search }, this.check()); // callback function to this.setState
-          console.log(this.state.books)
+        arrayOfBooks = book_search;
+        console.log(arrayOfBooks);
+        book_search.map((book) => {
+            book.shelf = 'none'
+          } );
+          this.setState({ oldBooks : book_search }, this.check); // callback function to this.setState
+        //  console.log(this.state.books)
         }
     })
-    }
+}
 
 
-  check() {
+  check = () => {
     let parent_books = this.props.books;
     console.log(this.state.books)
-    const book_result = this.state.books.map((book) => {
+    console.log(parent_books)
+    const book_result = this.state.oldBooks.map((book) => {
       const parent = parent_books.find(parent => parent.title === book.title );
        if(parent) {
         console.log(parent);
         book.shelf = parent.shelf;
-        let selfChange = this.props.handleShelfChange(book,book.shelf)
-        //return selfChange
-        }
-        return book;
-    })
-    this.setState({books: book_result})
-    console.log(this.state.books)
+          }
 
+        return book;
+      })
+        let getBook = this.state.books.filter(filteredBook => filteredBook.shelf !== "none")
+     this.setState({books: book_result}, () => {console.log(this.state.books)})
+//   this.setState({books: book_result}, () => this.props.updateState(getBook))
+
+    console.log(getBook);
+    console.log(this.state.books)
+    
 
   }
+
+
+
 
   render() {
     return(
 
       <div className="search-books">
-
         <div className="search-books-bar">
           <Link
             to="/"

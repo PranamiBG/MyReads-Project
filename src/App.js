@@ -8,9 +8,13 @@ import BookSearch from './BookSearch'
 
 
 class BooksApp extends React.Component {
-  state = {
-    books: [],
-    showSearchPage : false
+  constructor(props) {
+    super(props);
+    this.state = {
+      books: [],
+      showSearchPage : false
+    };
+    //this.updateState = this.updateState.bind(this)
   }
 
   componentDidMount() {
@@ -24,10 +28,12 @@ class BooksApp extends React.Component {
    bookName.filter(book => book.shelf===shelfName)
 
 
-  isTheBookNew = book => {
+  isTheBookNew = (book, newShelf) => {
     let is = false;
     if (book.shelf === "none")
-     { this.setState(state =>
+     {
+       book.shelf = newShelf;
+       this.setState(state =>
        {
          books: state.books.push(book)});
           is = true;
@@ -37,7 +43,7 @@ class BooksApp extends React.Component {
       };
 
       handleShelfChange = (bookOnChange, newSehlf) => {
-         !this.isTheBookNew(bookOnChange) && this.setState(state => {
+         !this.isTheBookNew(bookOnChange, newSehlf) && this.setState(state => {
          let newBooks = state.books.map(book =>
            { if (bookOnChange.id === book.id)
              { book.shelf = newSehlf; }
@@ -48,22 +54,13 @@ class BooksApp extends React.Component {
                };
               }
             );
-
-            let booksArray = this.state.books;
-     booksArray.map(book => {
-      if(book === bookOnChange) {
-        book.shelf = newSehlf;
-      }
-
-      this.setState({books: booksArray});
-      return {
-        books:booksArray
-      }
-    })
-
-              BooksAPI.update(bookOnChange, newSehlf);
+            BooksAPI.update(bookOnChange, newSehlf);
             };
 
+        updateState = (booksList) => {
+          const books = [...this.state.books, booksList]
+          this.setState({ books });
+        }
 
   render() {
     return (
@@ -100,7 +97,8 @@ class BooksApp extends React.Component {
             <Route path="/search" render={() =>
                 <BookSearch
                  books={this.state.books}
-                 handleShelfChange={this.handleShelfChange}/>
+                 handleShelfChange={this.handleShelfChange}
+                 updateState={this.updateState}/>
               } />
 
       </div>
