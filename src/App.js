@@ -36,7 +36,6 @@ class BooksApp extends React.Component {
        {
          books: state.books.push(book)});
           is = true;
-          console.log(this.state.books);
        }
        return is;
       };
