@@ -21,7 +21,6 @@ class BooksApp extends React.Component {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
     })
-    console.log(this.state.books);
   }
 
   filterByShelf = (bookName,shelfName) =>

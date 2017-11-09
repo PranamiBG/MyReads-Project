@@ -7,7 +7,6 @@ constructor(props) {
   this.state = {
     showSearchPage : false
   }
-  console.log(this.props.books)
 }
 
 
